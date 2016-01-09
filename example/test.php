@@ -12,16 +12,9 @@ require_once '../src/cast/Integer.php';
 require_once '../src/cast/String.php';
 require_once '../src/cast/Float.php';
 
-/**
- * Это описание класса
- *
- * @AmazingClass(true)
- */
 class Example extends \Alexboo\AnnotationMapper\Mapper
 {
     /**
-     * Это свойство с особенностью
-     *
      * @Mapped(property="priceOut", type="float", precision=2)
      */
     public $price;
@@ -29,7 +22,7 @@ class Example extends \Alexboo\AnnotationMapper\Mapper
     /**
      * @Mapped(type="integer")
      */
-    public $count;
+    protected $count;
 
     /**
      * @Mapped(type="float[]", precision=2)
@@ -40,6 +33,10 @@ class Example extends \Alexboo\AnnotationMapper\Mapper
      * @Mapped(type="Example2[]")
      */
     public $object;
+
+    public function setCount($value) {
+        $this->count = $value;
+    }
 }
 
 class Example2 extends \Alexboo\AnnotationMapper\Mapper

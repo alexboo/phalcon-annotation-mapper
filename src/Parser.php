@@ -30,7 +30,7 @@ class Parser
     protected function __construct()
     {
         /**
-         * Get annotation parse set to DI
+         * Get annotation parser from DI
          */
         if (DI::getDefault() && DI::getDefault()->has(Reference::DI_ADAPTER_NAME)) {
             $adapter = DI::getDefault()->get(Reference::DI_ADAPTER_NAME);
@@ -40,7 +40,7 @@ class Parser
         }
 
         /**
-         * If annotation pareser not specified use Memory adapter
+         * If annotation parser not specified use Memory adapter
          */
         if ($this->adapter === null) {
             $this->adapter = new MemoryAdapter();
