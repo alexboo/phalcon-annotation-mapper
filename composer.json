@@ -2,8 +2,8 @@
   "name": "alexboo/phalcon-annotation-mapper",
   "type": "library",
   "description": "Mapping data by annotation",
-  "keywords": ["phalcon","annotation", "mapper"],
-  "homepage": "https://github.com/alexboo/Wooppay",
+  "keywords": ["phalcon", "annotation", "mapper"],
+  "homepage": "https://github.com/alexboo/phalcon-annotation-mapper",
   "license": "GPLv2",
   "authors": [
     {
@@ -11,7 +11,8 @@
     }
   ],
   "require": {
-    "php": ">=5.4.0"
+    "php": ">=5.4.0",
+    "ext-phalcon": ">=1.2.4"
   },
   "autoload": {
     "psr-4": {
