@@ -4,7 +4,7 @@ Filling properties of the object based on another entity or associative array us
 
 ### Install
 
-You can install it using the compositor
+You can install it using the composer
  
 ```
 composer require alexboo/phalcon-annotation-mapper
