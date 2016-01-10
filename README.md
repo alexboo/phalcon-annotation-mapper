@@ -2,6 +2,14 @@
 
 Filling properties of the object based on another entity or associative array using data description annotations
 
+### Install
+
+You can install it using the compositor
+ 
+```
+composer require alexboo/phalcon-annotation-mapper
+```
+
 ### Examples
 ```
 class Example extends \Alexboo\AnnotationMapper\Mapper
