@@ -17,6 +17,12 @@ class Property
     protected $_property;
     // donator property
     protected $_mappingProperty;
+
+    // recipient
+    protected $_recipient;
+    // donator
+    protected $_donator;
+
     /**
      * Annotation data
      * @var \Phalcon\Annotations\Annotation
@@ -34,16 +40,16 @@ class Property
 
         $params = $annotation->getArguments();
 
-        if (isset($params['type'])) {
-            if (stripos($params['type'], '[]') !== false) {
+        if (isset($params[Reference::ANNOTATION_PROPERTY_TYPE])) {
+            if (stripos($params[Reference::ANNOTATION_PROPERTY_TYPE], '[]') !== false) {
                 $this->_isArray = true;
-                $params['type'] = rtrim($params['type'], '[]');
+                $params[Reference::ANNOTATION_PROPERTY_TYPE] = rtrim($params[Reference::ANNOTATION_PROPERTY_TYPE], '[]');
             }
-            $this->_type = $params['type'];
+            $this->_type = $params[Reference::ANNOTATION_PROPERTY_TYPE];
         }
 
-        if (isset($params['property'])) {
-            $this->_mappingProperty = $params['property'];
+        if (isset($params[Reference::ANNOTATION_PROPERTY])) {
+            $this->_mappingProperty = $params[Reference::ANNOTATION_PROPERTY];
         } else {
             $this->_mappingProperty = $property;
         }
@@ -58,36 +64,60 @@ class Property
      */
     public function mapping($recipient, $donator)
     {
+        $this->_recipient = $recipient;
+        $this->_donator = $donator;
+        if (is_object($this->_recipient)) {
+            $value = $this->getValue();
+            $this->setValue($value);
+        }
+    }
+
+    /**
+     * Set value to recipient
+     * @param $value
+     * @param mixed $recipient
+     */
+    public function setValue($value, $recipient = null)
+    {
+        if ($recipient === null) {
+            $recipient = $this->_recipient;
+        }
+
         if (is_object($recipient)) {
-            $value = $this->getValue($donator);
             $setMethod = 'set' . ucfirst($this->_property);
             if (method_exists($recipient, $setMethod)) {
                 $recipient->{$setMethod}($value);
             } else if (property_exists($recipient, $this->_property)) {
                 $recipient->{$this->_property} = $value;
             }
+        } else {
+            $recipient[$this->_property] = $value;
         }
     }
 
     /**
      * Get value for property from donator
-     * @param $donator
+     * @param mixed $dontator
      * @return MapperInterface|array
      */
-    protected function getValue($donator)
+    public function getValue($dontator = null)
     {
+        if ($dontator === null) {
+            $dontator = $this->_donator;
+        }
+
         $value = null;
 
-        if (is_object($donator)) {
+        if (is_object($dontator)) {
             $getMethod = 'get' . ucfirst($this->_mappingProperty);
-            if (method_exists($donator, $getMethod)) {
-                $value = $donator->{$getMethod}();
-            } else if (property_exists($donator, $this->_mappingProperty)){
-                $value = $donator->{$this->_mappingProperty};
+            if (method_exists($dontator, $getMethod)) {
+                $value = $dontator->{$getMethod}();
+            } else if (property_exists($dontator, $this->_mappingProperty)){
+                $value = $dontator->{$this->_mappingProperty};
             }
-        } else if (is_array($donator)) {
-            if (isset($donator[$this->_mappingProperty])) {
-                $value = $donator[$this->_mappingProperty];
+        } else if (is_array($dontator)) {
+            if (isset($dontator[$this->_mappingProperty])) {
+                $value = $dontator[$this->_mappingProperty];
             }
         }
 
@@ -117,6 +147,10 @@ class Property
                 if ($object instanceof MapperInterface) {
                     $object->mapping($value);
                     $value = $object;
+                } else if ($object instanceof CastInterface) {
+                    $value = $object->cast($value);
+                } else {
+                    $value = $object;
                 }
             } else {
                 $castClass = 'Alexboo\\AnnotationMapper\\Cast\\'. ucfirst($this->_type);
@@ -134,5 +168,108 @@ class Property
         }
 
         return $value;
+    }
+
+    /**
+     * Get type of property
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->_type;
+    }
+
+    /**
+     * Set type of property
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->_type = $type;
+    }
+
+    /**
+     * Get property name
+     * @return mixed
+     */
+    public function getProperty()
+    {
+        return $this->_property;
+    }
+
+    /**
+     * Set property name
+     * @param mixed $property
+     */
+    public function setProperty($property)
+    {
+        $this->_property = $property;
+    }
+
+    /**
+     * Get mapping property name
+     * @return mixed
+     */
+    public function getMappingProperty()
+    {
+        return $this->_mappingProperty;
+    }
+
+    /**
+     * Set mapping propery name
+     * @param mixed $mappingProperty
+     */
+    public function setMappingProperty($mappingProperty)
+    {
+        $this->_mappingProperty = $mappingProperty;
+    }
+
+    /**
+     * Get anotation data
+     * @return \Phalcon\Annotations\Annotation
+     */
+    public function getAnnotation()
+    {
+        return $this->_annotation;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsArray()
+    {
+        return $this->_isArray;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRecipient()
+    {
+        return $this->_recipient;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDonator()
+    {
+        return $this->_donator;
+    }
+
+    /**
+     * @param mixed $recipient
+     */
+    public function setRecipient($recipient)
+    {
+        $this->_recipient = $recipient;
+    }
+
+    /**
+     * @param mixed $donator
+     */
+    public function setDonator($donator)
+    {
+        $this->_donator = $donator;
     }
 }

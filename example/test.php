@@ -12,6 +12,9 @@ require_once '../src/cast/Integer.php';
 require_once '../src/cast/String.php';
 require_once '../src/cast/Float.php';
 
+
+\Alexboo\AnnotationMapper\Cast\Float::setDefaultPrecision(1);
+
 class Example extends \Alexboo\AnnotationMapper\Mapper
 {
     /**
@@ -25,7 +28,7 @@ class Example extends \Alexboo\AnnotationMapper\Mapper
     protected $count;
 
     /**
-     * @Mapped(type="float[]", precision=2)
+     * @Mapped(type="float[]")
      */
     public $array;
 
@@ -44,21 +47,27 @@ class Example2 extends \Alexboo\AnnotationMapper\Mapper
     /**
      * @Mapped(type="integer")
      */
-    public $property1;
+    public $propertyOne;
 
     /**
-     * @Mapped(type="float", precision=2)
+     * @Mapped(type="float")
      */
-    public $property2;
+    public $propertyTwo;
+
+    /**
+     * @Mapped(type="string")
+     */
+    public $propertyThree;
 }
 
 $donator = [
-    'priceOut' => '1000.50000',
+    'priceOut' => '1000.51000',
     'count' => 100,
     'array' => ['1.222','2.333','3.400000'],
     'object' => [[
-        'property1' => '1000.500',
-        'property2' => '2000.500',
+        'propertyOne' => '1000.500',
+        'propertyTwo' => '2000.500',
+        'propertyThree' => ' aaaddd '
     ]]
 ];
 
@@ -66,20 +75,25 @@ $example = new Example();
 
 $example->mapping($donator);
 
+
 var_dump($example);
 
 $donator = new stdClass();
-$donator->priceOut = '2000.50000';
+$donator->priceOut = '2000.52000';
 $donator->count = 200;
 $donator->array = [4,5,6];
 $donator->object = [[
-    'property1' => '1000.500',
-    'property2' => '2000.500',
+    'propertyOne' => '1000.520',
+    'propertyTwo' => '2000.520',
+    'propertyThree' => ' aaaddd '
 ]];
 
+\Alexboo\AnnotationMapper\Cast\String::isTrim(false);
 
 $example = new Example();
 
 $example->mapping($donator);
 
 var_dump($example);
+
+
