@@ -11,26 +11,33 @@ abstract class Mapper implements MapperInterface
      */
     protected $_donator;
 
+    /**
+     * List of mapped properties in this object
+     * @var Property[] $_properties
+     */
+    protected $_properties;
+
     /**Mapping data
      * @param $donator
      */
     public function mapping($donator)
     {
-        $this->_donator = $donator;
+        if (!empty($donator) && (is_object($donator) || is_array($donator))) {
+            $this->_donator = $donator;
 
-        $this->onBeforeMapping();
+            $this->_properties = Parser::getInstance()->parse($this);
 
-        $parser = Parser::getInstance();
+            $this->onBeforeMapping();
 
-        $properties = $parser->parse($this);
+            foreach ($this->_properties as $property) {
+                $property->mapping($this, $this->_donator);
+            }
 
-        foreach ($properties as $property) {
-            $property->mapping($this, $this->_donator);
+            $this->onAfterMapping();
+
+            unset($this->_donator);
+            unset($this->_properties);
         }
-
-        $this->onAfterMapping();
-
-        unset($this->_donator);
     }
 
     /**
