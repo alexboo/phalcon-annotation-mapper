@@ -1,10 +1,10 @@
 # Phalcon annotation mapper
 
-Filling properties of the object based on another entity or associative array using data description annotations
+Mapping data from object or associative array to object implements \Alexboo\AnnotationMapper\MapperInterface
 
 ### Install
 
-You can install it using the composer
+You can install it using the composer. But it need phalcon framework php extension.
  
 ```
 composer require alexboo/phalcon-annotation-mapper
@@ -12,8 +12,6 @@ composer require alexboo/phalcon-annotation-mapper
 
 ### Examples
 ```
-\Alexboo\AnnotationMapper\Cast\Float::setDefaultPrecision(1);
-
 class Example extends \Alexboo\AnnotationMapper\Mapper
 {
     /**
@@ -87,7 +85,7 @@ $donator->object = [[
     'propertyThree' => ' aaaddd '
 ]];
 
-\Alexboo\AnnotationMapper\Cast\String::isTrim(false);
+
 
 $example = new Example();
 
@@ -96,3 +94,108 @@ $example->mapping($donator);
 var_dump($example);
 
 ```
+
+### Additional options.
+ 
+ Caster float and string support additional options. For float caster you can set precision (number of digits after the decimal point). For string you can disabled or enabled (default) trim all string.
+ 
+ ```
+ // Set default precision for all properties with float type
+ 
+ \Alexboo\AnnotationMapper\Cast\Float::setDefaultPrecision(1);
+ 
+ class Example3 extends \Alexboo\AnnotationMapper\Mapper
+ {
+     /**
+      * @var float $field1
+      * @Mapped(type="float")
+      */
+     public $field1;
+     /**
+      * @var float $field2
+      * @Mapped(type="float")
+      */
+     public $field2;
+ }
+ 
+ $example = new Example3();
+ $example->mapping([
+     'field1' => '15.123456',
+     'field2' => '987.654123',
+ ]);
+ 
+ var_dump($example);
+ 
+ // Disabled/enabled trim string data
+ 
+ class Example4 extends \Alexboo\AnnotationMapper\Mapper
+ {
+     /**
+      * @Mapped(type="string")
+      */
+     public $field1;
+     /**
+      * @Mapped(type="string")
+      */
+     public $field2;
+ }
+ 
+ \Alexboo\AnnotationMapper\Cast\String::isTrim(false);
+ 
+ $example = new Example4();
+ $example->mapping([
+     'field1' => '   asdasd  asdasdasd   ',
+     'field2' => '        ',
+ ]);
+ 
+ var_dump($example);
+ 
+ \Alexboo\AnnotationMapper\Cast\String::isTrim(true);
+ 
+ $example = new Example4();
+ $example->mapping([
+     'field1' => '   asdasd  asdasdasd   ',
+     'field2' => '        ',
+ ]);
+ 
+ var_dump($example);
+ 
+ ```
+ 
+ ### Create you custer
+ 
+ You can create custom custer if you need. Than you can specify it like type of property. Caster must implements \Alexboo\AnnotationMapper\CastCastInterface
+ 
+ ```
+ /**
+  * Cast all data to "blabla" string
+  * Class BlaBlaCaster
+  */
+ class BlaBlaCaster extends \Alexboo\AnnotationMapper\Cast\CastAbstract
+ {
+     public function cast($value) {
+         return "blabla";
+     }
+ }
+ 
+ class Example5 extends \Alexboo\AnnotationMapper\Mapper
+ {
+     /**
+      * @Mapped(type="BlaBlaCaster")
+      */
+     public $field1;
+     /**
+      * @Mapped(type="\Alexboo\AnnotationMapper\Cast\Integer")
+      */
+     public $field2;
+ }
+ 
+ $example = new Example5();
+ $example->mapping([
+     'field1' => 'Cool!',
+     'field2' => 123213213,
+ ]);
+ 
+ var_dump($example);
+ 
+ ```
