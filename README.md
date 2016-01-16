@@ -97,9 +97,9 @@ var_dump($example);
 
 ### Additional options.
  
- Caster float and string support additional options. For float caster you can set precision (number of digits after the decimal point). For string you can disabled or enabled (default) trim all string.
+ Caster float and string support additional options. For float caster you can set precision (number of digits after the decimal point). For string you can disabled or enabled (using by default) trim all string.
  
- ```
+```
  // Set default precision for all properties with float type
  
  \Alexboo\AnnotationMapper\Cast\Float::setDefaultPrecision(1);
@@ -160,9 +160,9 @@ var_dump($example);
  
  var_dump($example);
  
- ```
+```
  
- ### Create you custer
+### Create you custer
  
  You can create custom custer if you need. Than you can specify it like type of property. Caster must implements \Alexboo\AnnotationMapper\CastCastInterface
  
