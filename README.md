@@ -192,7 +192,7 @@ var_dump($example);
  
  $example = new Example5();
  $example->mapping([
-     'field1' => 'Cool!',
+     'field1' => 'Say something very clever!',
      'field2' => 123213213,
  ]);
  
