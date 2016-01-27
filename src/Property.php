@@ -84,7 +84,7 @@ class Property
         }
 
         if (is_object($recipient)) {
-            $setMethod = 'set' . ucfirst($this->_property);
+            $setMethod = 'set' . \Phalcon\Text::camelize($this->_property);
             if (method_exists($recipient, $setMethod)) {
                 $recipient->{$setMethod}($value);
             } else if (property_exists($recipient, $this->_property)) {
@@ -109,7 +109,7 @@ class Property
         $value = null;
 
         if (is_object($dontator)) {
-            $getMethod = 'get' . ucfirst($this->_mappingProperty);
+            $getMethod = 'get' . \Phalcon\Text::camelize($this->_mappingProperty);
             if (method_exists($dontator, $getMethod)) {
                 $value = $dontator->{$getMethod}();
             } else if (property_exists($dontator, $this->_mappingProperty)){
