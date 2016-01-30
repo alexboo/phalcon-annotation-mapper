@@ -1,6 +1,7 @@
 <?php
 
 namespace Alexboo\AnnotationMapper\Cast;
+use Alexboo\AnnotationMapper\Reference;
 
 /**
  * Cast data to float
@@ -21,8 +22,8 @@ class Float extends CastAbstract
     {
         $params = $anatation->getArguments();
 
-        if (isset($params['precision'])) {
-            $this->_precision = (int) $params['precision'];
+        if (isset($params[Reference::PARAM_PRECISION])) {
+            $this->_precision = (int) $params[Reference::PARAM_PRECISION];
         }
     }
 

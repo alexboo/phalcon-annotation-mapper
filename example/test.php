@@ -127,7 +127,7 @@ var_dump($example);
 class Example4 extends \Alexboo\AnnotationMapper\Mapper
 {
     /**
-     * @Mapped(type="string")
+     * @Mapped(type="string", uppercase="true")
      */
     public $field1;
     /**

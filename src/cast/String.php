@@ -1,6 +1,7 @@
 <?php
 
 namespace Alexboo\AnnotationMapper\Cast;
+use Alexboo\AnnotationMapper\Reference;
 
 /**
  * Cast data to string
@@ -10,6 +11,10 @@ namespace Alexboo\AnnotationMapper\Cast;
 class String extends CastAbstract
 {
     protected $_trim = null;
+
+    protected $_uppercase = false;
+
+    protected $_lowercase = false;
 
     /**
      * @var bool $_trim
@@ -24,8 +29,16 @@ class String extends CastAbstract
     {
         $params = $anatation->getArguments();
 
-        if (isset($params['trim'])) {
-            $this->_trim = (bool) $params['trim'];
+        if (isset($params[Reference::PARAM_TRIM])) {
+            $this->_trim = filter_var($params[Reference::PARAM_TRIM], FILTER_VALIDATE_BOOLEAN);
+        }
+
+        if (isset($params[Reference::PARAM_UPPERCASE])) {
+            $this->_uppercase = filter_var($params[Reference::PARAM_UPPERCASE], FILTER_VALIDATE_BOOLEAN);
+        }
+
+        if (isset($params[Reference::PARAM_LOWERCASE])) {
+            $this->_lowercase = filter_var($params[Reference::PARAM_LOWERCASE], FILTER_VALIDATE_BOOLEAN);
         }
     }
 
@@ -44,6 +57,12 @@ class String extends CastAbstract
             $value =  (string) $value;
             if ($this->_trim === true) {
                 $value = trim($value);
+            }
+
+            if ($this->_uppercase === true) {
+                $value = \Phalcon\Text::upper($value);
+            } elseif ($this->_lowercase === true) {
+                $value = \Phalcon\Text::lower($value);
             }
 
             return $value;

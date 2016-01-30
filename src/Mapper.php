@@ -38,6 +38,8 @@ abstract class Mapper implements MapperInterface
             unset($this->_donator);
             unset($this->_properties);
         }
+
+        return $this;
     }
 
     /**
