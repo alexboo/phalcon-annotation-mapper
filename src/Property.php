@@ -112,7 +112,7 @@ class Property
             $getMethod = 'get' . \Phalcon\Text::camelize($this->_mappingProperty);
             if (method_exists($dontator, $getMethod)) {
                 $value = $dontator->{$getMethod}();
-            } else if (property_exists($dontator, $this->_mappingProperty)){
+            } else if (isset($dontator, $this->_mappingProperty)){
                 $value = $dontator->{$this->_mappingProperty};
             }
         } else if (is_array($dontator)) {
