@@ -8,7 +8,7 @@ use Alexboo\AnnotationMapper\Reference;
  * Class String
  * @package Alexboo\AnnotationMapper\Cast
  */
-class String extends CastAbstract
+class StringCast extends CastAbstract
 {
     protected $_trim = null;
 

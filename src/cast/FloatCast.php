@@ -8,7 +8,7 @@ use Alexboo\AnnotationMapper\Reference;
  * Class Float
  * @package Alexboo\AnnotationMapper\Cast
  */
-class Float extends CastAbstract
+class FloatCast extends CastAbstract
 {
     protected $_precision = null;
 

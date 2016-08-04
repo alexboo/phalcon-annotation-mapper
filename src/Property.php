@@ -153,7 +153,7 @@ class Property
                     $value = $object;
                 }
             } else {
-                $castClass = 'Alexboo\\AnnotationMapper\\Cast\\'. ucfirst($this->_type);
+                $castClass = 'Alexboo\\AnnotationMapper\\Cast\\'. ucfirst($this->_type) . 'Cast';
                 if (class_exists($castClass)) {
                     /**
                      * @var CastInterface $caster

@@ -7,7 +7,7 @@ namespace Alexboo\AnnotationMapper\Cast;
  * Class Integer
  * @package Alexboo\AnnotationMapper\Cast
  */
-class Integer extends CastAbstract
+class IntegerCast extends CastAbstract
 {
     /**
      * Cast value to integer

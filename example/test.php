@@ -10,7 +10,7 @@ require_once '../src/cast/CastAbstract.php';
 require_once '../src/cast/Boolean.php';
 require_once '../src/cast/Integer.php';
 require_once '../src/cast/String.php';
-require_once '../src/cast/Float.php';
+require_once '../src/cast/FloatCast.php';
 
 // Mapping examples
 
@@ -136,7 +136,7 @@ class Example4 extends \Alexboo\AnnotationMapper\Mapper
     public $field2;
 }
 
-\Alexboo\AnnotationMapper\Cast\String::isTrim(false);
+\Alexboo\AnnotationMapper\Cast\StringCast::isTrim(false);
 
 $example = new Example4();
 $example->mapping([
@@ -146,7 +146,7 @@ $example->mapping([
 
 var_dump($example);
 
-\Alexboo\AnnotationMapper\Cast\String::isTrim(true);
+\Alexboo\AnnotationMapper\Cast\StringCast::isTrim(true);
 
 $example = new Example4();
 $example->mapping([

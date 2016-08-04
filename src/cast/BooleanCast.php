@@ -7,7 +7,7 @@ namespace Alexboo\AnnotationMapper\Cast;
  * Class Boolean
  * @package Alexboo\AnnotationMapper\Cast
  */
-class Boolean extends CastAbstract
+class BooleanCast extends CastAbstract
 {
     public function cast($value)
     {
