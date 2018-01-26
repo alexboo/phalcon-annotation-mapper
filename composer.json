@@ -4,7 +4,7 @@
   "description": "Mapping data by annotation",
   "keywords": ["phalcon", "annotation", "mapper"],
   "homepage": "https://github.com/alexboo/phalcon-annotation-mapper",
-  "license": "GPLv2",
+  "license": "LGPL-3.0",
   "authors": [
     {
       "name": "Alexey Bulybin"
